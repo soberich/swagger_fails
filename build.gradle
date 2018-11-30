@@ -1,0 +1,33 @@
+import static java.nio.charset.StandardCharsets.UTF_8
+import static org.gradle.api.JavaVersion.current
+import static org.gradle.api.PathValidation.DIRECTORY
+
+plugins {
+    id("base")
+}
+
+assert current().isJava8Compatible() : "At least Java 8 is required, current JVM is ${current()}"
+
+subprojects {
+    group       = "com.example"
+    version     = "0.1.0-SNAPSHOT"
+    description = "${name.replace("-", " ").toUpperCase()} of EXAMPLE"
+
+    repositories {
+        jcenter()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.with {
+            it.encoding            = UTF_8.name()
+            it.incremental         = true
+            // compiler daemon JVM options
+            it.fork                = true
+            it.forkOptions.jvmArgs = project["org.gradle.jvmargs"].toString().split(" ")
+            // javac tasks args
+            it.compilerArgs        + file("$rootDir/javac${current().majorVersion}Args").list()
+        }
+    }
+}
+
+

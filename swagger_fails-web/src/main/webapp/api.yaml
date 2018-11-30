@@ -1,0 +1,24 @@
+openapi: 3.0.2
+info:
+    title: Example
+    description: Example
+    termsOfService: http://Example-Example.com/
+    contact:
+        email: soberich@Example.com
+    version: 0.1.0-SNAPSHOT
+servers:
+    - url: "{protocol}://{address}:{port}/{base}"
+      description: Remote or local server
+      variables:
+          protocol:
+              enum:
+                  - http
+                  - https
+              default: http
+              description: Protocol. Whether secure or not.
+          address:
+              default: localhost
+          port:
+              default: 8080
+          base:
+              default: /api

@@ -1,0 +1,38 @@
+import static org.gradle.api.PathValidation.DIRECTORY
+
+plugins {
+    id("java-gradle-plugin")
+}
+
+repositories {
+    gradlePluginPortal()
+    jcenter()
+}
+
+/*plugin*/ dependencies {    
+    implementation(group: "org.springframework.boot",                          name: "spring-boot-gradle-plugin", version: "2.1.0.RELEASE")
+    implementation(group: "com.bmuschko",                                      name: "gradle-docker-plugin",      version: "3.6.1")
+    implementation(group: "nu.studer",                                         name: "gradle-credentials-plugin", version: "1.0.4")
+    implementation(group: "com.moowork.gradle",                                name: "gradle-node-plugin",        version: "1.2.0")
+    implementation(group: "gradle.plugin.com.gorylenko.gradle-git-properties", name: "gradle-git-properties",     version: "2.0.0-beta1")
+    implementation(group: "org.sonarsource.scanner.gradle",                    name: "sonarqube-gradle-plugin",   version: "2.6.2")
+    implementation(group: "io.ebean",                                          name: "ebean-gradle-plugin",       version: "11.26.1")
+    implementation(group: "io.swagger.core.v3",                                name: "swagger-gradle-plugin",     version: "2.0.6")
+    implementation(group: "org.apache.commons",                                name: "commons-lang3",             version: "3.8.1") //for OpenApi build-time plugin
+    implementation(group: "com.github.ben-manes",                              name: "gradle-versions-plugin",    version: "0.20.0")
+    implementation(group: "com.vanniktech",                                    name: "gradle-dependency-graph-generator-plugin", version: "0.5.0")
+}
+
+gradlePlugin {
+    plugins {
+        for (plugin in file("./src/main/groovy", DIRECTORY).listFiles({ it.isFile() && it.name.contains("Plugin") } as FileFilter)) {
+            def name = plugin.name.substring(0, plugin.name.lastIndexOf("."))
+                .replaceAll("\\\$", "")
+                .replaceAll("((?!^)[^_])([A-Z0-9]+)", "\$1-\$2").toLowerCase()
+            it.create(name) {
+                it.id                  = name.substring(0, name.lastIndexOf("-plugin"))
+                it.implementationClass = plugin.name.substring(0, plugin.name.lastIndexOf("."))
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+import io.swagger.v3.plugins.gradle.tasks.ResolveTask
+import versioning.Deps
+
+import static io.swagger.v3.plugins.gradle.tasks.ResolveTask.Format.YAML
+import static org.gradle.api.PathValidation.FILE
+import static org.gradle.api.tasks.SourceSet.MAIN_SOURCE_SET_NAME
+
+plugins {
+    id("java")
+//    id("io.swagger.core.v3.swagger-gradle-plugin")
+}
+
+//tasks.withType(ResolveTask).configureEach {
+//    it.group                      = "documentation"
+//    it.openApiFile                = file("../swagger_fails-web/src/main/webapp/api.yaml", FILE)
+//    it.outputFormat               = YAML
+//    it.prettyPrint                = true
+//    it.classpath                  = sourceSets.main.runtimeClasspath
+//    it.resourcePackages           = ["com.example", "com.example.web.rest"]
+//    it.outputPath                 =  "../swagger_fails-web/src/main/webapp"
+//    it.modelConverterClasses      = ["com.example.OpenApiConfig"]
+//    it.objectMapperProcessorClass =  "com.example.OpenApiConfig"
+//}
+
+dependencies {
+    implementation(project(":swagger_fails-web"))
+    implementation(Deps.Libs.OPENAPI_MODELS)
+    implementation(Deps.Libs.OPENAPI_JAXRS2)
+    compileOnly(Deps.Javax.JAX_RS)
+}

@@ -1,0 +1,5 @@
+-Xlint
+-Xlint:-processing
+-Xlint:-varargs
+-Xdiags:verbose
+-parameters

@@ -1,0 +1,7 @@
+import versioning.Deps
+
+plugins {
+    id("java")
+    id("jackson")
+    id("spring-boot") // HERE
+}

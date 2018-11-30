@@ -1,0 +1,32 @@
+import static org.gradle.api.PathValidation.*
+import java.io.FileFilter
+
+
+pluginManagement {
+    it.repositories {
+        it.gradlePluginPortal()
+        it.jcenter()
+    }
+    it.resolutionStrategy {
+        it.eachPlugin {
+//            if(it.requested.id.id.contains("io.swagger.core.v3.swagger-gradle-plugin"))
+//                it.useModule("io.swagger.core.v3:swagger-gradle-plugin:${it.requested.version}")
+            if(it.requested.id.id.contains("gradle-credentials-plugin"))
+                it.useModule("nu.studer:gradle-credentials-plugin:${it.requested.version}")
+        }
+    }
+}
+
+rootProject.name = "swagger_fails"
+
+include(
+    ":swagger_fails-web",
+    ":swagger_fails-openapi"
+)
+
+//project(":plugins").with {
+//    projectDir    = file("gradle/$name")
+//    buildFileName = "$name.gradle"
+//    assert projectDir.isDirectory()
+//    assert buildFile.isFile()
+//}
